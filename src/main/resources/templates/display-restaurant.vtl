@@ -1,0 +1,51 @@
+<h1> $restaurant.getName() </h1>
+
+<form action="/saveDescription" method="post">
+  <div class="form-group">
+    <label for="description">Update Description</label>
+    <input id="description" name="description" type="text" class="form-control">
+  </div>
+  <input id="restaurant_id" name="restaurant_id" type="hidden" value="$restaurant.getId()" class="form-control">
+
+  <button type="submit" class="btn btn-success">Update description for this restaurant</button>
+</form>
+<br>
+<br>
+<p>
+  Description:
+</p>
+#if ($restaurant.getDescription())
+  $restaurant.getDescription()
+#else
+  <p>
+    No description available. Add your own!
+  </p>
+#end
+<br>
+<br>
+<p>
+  Average Rating:
+</p>
+#if ($restaurant.averageRating())
+  $restaurant.averageRating()
+#else
+  <p>
+    No one cares about this restaurant enough to rate it. How's bout you rate it?
+  </p>
+#end
+
+<form action="/saveReview" method="post">
+  <div class="form-group">
+    <label for="reviewText">Enter the text for your review:</label>
+    <input id="reviewText" name="reviewText" type="text" class="form-control">
+  </div>
+  <div class="form-group">
+    <label for="rating">Give the restaurant a rating from 1 to 5:</label>
+    <input id="rating" name="rating" type="number" class="form-control">
+  </div>
+  <input id="restaurant_id" name="restaurant_id" type="hidden" value="$restaurant.getId()" class="form-control">
+
+  <button type="submit" class="btn btn-success">Update description for this restaurant</button>
+</form>
+
+<h3><a href="/">Back to home</a></h3>

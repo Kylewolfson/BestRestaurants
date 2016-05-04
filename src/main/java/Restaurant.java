@@ -22,6 +22,10 @@ public class Restaurant {
     return Cuisine.find(this.cuisine_id).getName();
   }
 
+  public int getCuisineId(){
+    return Cuisine.find(this.cuisine_id).getId();
+  }
+
   @Override
   public boolean equals(Object otherRestaurant) {
     if (!(otherRestaurant instanceof Restaurant)) {
@@ -62,10 +66,38 @@ public class Restaurant {
     }
   }
 
+  public double averageRating() {
+    List<Review> reviews = this.getReviews();
+    double ratingTotal = 0;
+    int ratingCount = 0;
+    for (Review review : reviews) {
+      ratingTotal += review.getRating();
+      ratingCount ++;
+    }
+    return (ratingTotal/ratingCount);
+  }
+
+  public List<Review> getReviews() {
+    String sql = "SELECT * FROM reviews WHERE restaurant_id = :this_restaurant_id";
+    try(Connection con = DB.sql2o.open()) {
+      return con.createQuery(sql)
+      .addParameter("this_restaurant_id", this.id)
+      .executeAndFetch(Review.class);
+    }
+  }
+
   public static List<Restaurant> all() {
     String sql = "SELECT * FROM restaurants";
     try(Connection con = DB.sql2o.open()) {
       return con.createQuery(sql).executeAndFetch(Restaurant.class);
+    }
+  }
+  public static Restaurant find(int id) {
+    String sql = "SELECT * FROM restaurants WHERE id = :id";
+    try(Connection con = DB.sql2o.open()) {
+      return con.createQuery(sql)
+      .addParameter("id", id)
+      .executeAndFetchFirst(Restaurant.class);
     }
   }
 }

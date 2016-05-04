@@ -1,3 +1,8 @@
+<h1>$cuisine Restaurants:</h1>
+
 #foreach ($restaurant in $restaurants)
-<p> $restaurant.getName() </p>
+<p><a href="/cuisine/$restaurant.getCuisineId()/restaurants/$restaurant.getId()">$restaurant.getName()</a></p>
 #end
+<br>
+<br>
+<h3><a href="/">Back to home</a></h3>
