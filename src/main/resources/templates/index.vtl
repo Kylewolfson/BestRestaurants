@@ -1,0 +1,30 @@
+<h1> Restaurant reviews </h1>
+
+<ol>
+#foreach($restaurant in $restaurants)
+  <li>$restaurant.getName(), $restaurant.getCuisineName()</li>
+#end
+</ol>
+
+<form action="/saveNewRestaurant" method="post">
+  <label for="cuisineId">Select Cuisine Type for restaurant</label>
+  <select id='cuisineId' name='cuisineId' type='text'>
+  #foreach($cuisine in $cuisines)
+    <option value="$cuisine.getId()">$cuisine.getName()</option>
+  #end
+</select>
+
+  <div class="form-group">
+    <label for="name">Restaurant</label>
+    <input id="name" name="name" type="text" class="form-control">
+  </div>
+
+  <button type="submit" class="btn btn-success">Add Restaurant</button>
+</form>
+
+<h4>Look up restaurants by cuisine type</h4>
+#foreach($cuisine in $cuisines)
+  <p>
+    <a href="/cuisine/$cuisine.getId()">$cuisine.getName()</a>
+  </p>
+#end
