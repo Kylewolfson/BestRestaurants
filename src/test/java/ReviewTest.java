@@ -6,20 +6,8 @@ import java.util.Date;
 
 public class ReviewTest {
 
-  @Before
-  public void setUp() {
-    DB.sql2o = new Sql2o("jdbc:postgresql://localhost:5432/restaurants_test", null, null);
-  }
-
-  @After
-  public void tearDown() {
-    try(Connection con = DB.sql2o.open()) {
-      String deletePatientsQuery = "DELETE FROM reviews *;";
-      String deleteDoctorsQuery = "DELETE FROM restaurants *;";
-      con.createQuery(deletePatientsQuery).executeUpdate();
-      con.createQuery(deleteDoctorsQuery).executeUpdate();
-    }
-  }
+  @Rule
+  public DatabaseRule database = new DatabaseRule();
 
   @Test
   public void review_instantiatesCorectly_true() {

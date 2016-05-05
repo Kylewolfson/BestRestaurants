@@ -1,6 +1,8 @@
 import java.util.List;
 import org.sql2o.*;
 import java.util.Date;
+import java.text.SimpleDateFormat;
+
 
 
 public class Review {
@@ -27,8 +29,8 @@ public class Review {
   public String getReviewText(){
     return review_text;
   }
-  public Date getDate(){
-    return review_date;
+  public String getDate(){
+    return new SimpleDateFormat("MM-dd-yyyy").format(this.review_date);
   }
   public int getRestaurantId(){
     return restaurant_id;

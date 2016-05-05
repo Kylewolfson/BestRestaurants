@@ -23,17 +23,28 @@
 #end
 <br>
 <br>
-<p>
+<h2>
   Average Rating:
-</p>
-#if ($restaurant.averageRating())
-  $restaurant.averageRating()
+</h2>
+#if ($restaurant.averageRating() > 0)
+  <h2>$restaurant.averageRating()</h2>
 #else
   <p>
     No one cares about this restaurant enough to rate it. How's bout you rate it?
   </p>
 #end
-
+<br>
+<br>
+<h3>Reviews:</h3>
+#foreach ($review in $reviews)
+<br>
+  This user's rating: $review.getRating() <br>
+  User's comments: $review.getReviewText() <br>
+  Date of review: $review.getDate() <br>
+#end
+<br>
+<h3>Add a review:</h3>
+<br>
 <form action="/saveReview" method="post">
   <div class="form-group">
     <label for="reviewText">Enter the text for your review:</label>
@@ -45,7 +56,7 @@
   </div>
   <input id="restaurant_id" name="restaurant_id" type="hidden" value="$restaurant.getId()" class="form-control">
 
-  <button type="submit" class="btn btn-success">Update description for this restaurant</button>
+  <button type="submit" class="btn btn-success">Add your review</button>
 </form>
 
 <h3><a href="/">Back to home</a></h3>

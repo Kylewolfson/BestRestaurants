@@ -46,9 +46,9 @@ public class App {
     return null;
   });
 
-    get("/cuisine/:id", (request, response) -> {
+    get("/cuisine", (request, response) -> {
       Map<String, Object> model = new HashMap<String, Object>();
-      int cuisineNumber = Integer.parseInt(request.params(":id"));
+      int cuisineNumber = Integer.parseInt(request.queryParams("chooseCuisine"));
       String cuisine = Cuisine.find(cuisineNumber).getName();
       List<Restaurant> restaurants = Cuisine.find(cuisineNumber).getRestaurants();
       model.put("restaurants", restaurants);
@@ -62,20 +62,23 @@ public class App {
       int id = Integer.parseInt(request.params(":id"));
       Restaurant restaurant = Restaurant.find(id);
       model.put("restaurant", restaurant);
+      model.put("reviews", restaurant.getReviews());
       model.put("template","templates/display-restaurant.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
     post("/saveReview", (request, response) -> {
       Map<String, Object> model = new HashMap<String, Object>();
-      int restaurant_id = Integer.parseInt(request.queryParams("restaurant_id"));
+      Integer restaurant_id = Integer.parseInt(request.queryParams("restaurant_id"));
       String review_text = request.queryParams("reviewText");
       double rating = Double.parseDouble(request.queryParams("rating"));
       Date currentDate = new Date();
       Review newReview = new Review(rating, review_text, currentDate, restaurant_id);
       newReview.save();
-      model.put("template", "templates/index.vtl");
-      return new ModelAndView(model, layout);
-    }, new VelocityTemplateEngine());
+      Restaurant restaurant = Restaurant.find(restaurant_id);
+      Integer cuisine_id = restaurant.getCuisineId();
+      response.redirect("/cuisine/" + cuisine_id.toString() + "/restaurants/" + restaurant_id.toString());
+      return null;
+    });
   }
 }

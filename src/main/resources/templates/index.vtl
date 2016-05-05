@@ -23,8 +23,12 @@
 </form>
 
 <h4>Look up restaurants by cuisine type</h4>
-#foreach($cuisine in $cuisines)
-  <p>
-    <a href="/cuisine/$cuisine.getId()">$cuisine.getName()</a>
-  </p>
-#end
+<form action="/cuisine" method="get">
+  <label for="chooseCuisine">View restaurants by cuisine type</label>
+  <select id='chooseCuisine' name="chooseCuisine">
+    #foreach($cuisine in $cuisines)
+    <option value="$cuisine.getId()">$cuisine.getName()</option>
+    #end
+  </select>
+  <button type="submit" class="btn btn-success">Lookup</button>
+</form>
